@@ -19,7 +19,8 @@ with open('alarmes.json', 'r') as f:
 async def send_welcome(message: types.Message):
     await message.reply("Olá " + message['chat']['first_name'] + " eu sou um bot desenvolvido para auxilixar o cliente a fazer seu pedido.\n"
                         "Fui desenvolvido em Python com aiogram. "
-                        "\nControlado por: Dev. Renan Almeida. (Developer Py)\n")
+                        "\nControlado por: Dev. Renan Almeida. (Developer Py)\n"
+                        "\nControlado por: Dev. Laura Sorato. (Developer Py)\n")
 
 
 @dp.message_handler(commands=['start'])
