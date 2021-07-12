@@ -63,10 +63,6 @@ async def cmd_start(message: types.Message):
                             "3 - Não acrescente as observações até solicitado;\n"
                             "4 - Siga as intruções informadas por mim.\n"
                             "\nVocê concorda com as regras acima?", reply_markup=markup)
-    else:
-        await message.answer('Olá ' + message['chat'][
-            'first_name'] + ', no momento não encontrei seu username.'
-                            'Você deve verificá-lo nas configurações do Telegram.')
 
 
 # You can use state '*' if you need to handle all states
@@ -97,12 +93,12 @@ async def process_name(message: types.Message, state: FSMContext):
         markup = types.ReplyKeyboardRemove()
 
         if data['apresentacao'] != "sim":
-            await message.reply("<b>Busca encerrada.</b> Para iniciar a busca novamente digite:"
+            await message.reply("<b>Pedido encerrado.</b> Para iniciar um pedido novamente, pressione:"
                                  "\n'/start'", reply_markup=markup, parse_mode=ParseMode.HTML)
             await state.finish()    # interrompendo ação
         else:
             await Form.next()       # próximo State
-            await message.reply("Qual nome você gostaria de pesquisar?", reply_markup=markup)
+            await message.reply("Qual é o seu endereço?", reply_markup=markup)
 
 
 # confere o nome
@@ -110,7 +106,7 @@ async def process_name(message: types.Message, state: FSMContext):
 async def process_nome_invalid(message: types.Message):
     await types.ChatActions.typing(0.5)     # ação de 'digitando'
 
-    return await message.reply("Você deve fornecer um nome.\nQual nome você gostaria de pesquisar?")
+    return await message.reply("Você deve fornecer um endereço.\nQual o seu endereço?")
 
 
 @dp.message_handler(lambda message: message.text, state=Form.nome)
@@ -123,12 +119,11 @@ async def process_nome(message: types.Message, state: FSMContext):
 
     # Configure ReplyKeyboardMarkup
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
-    markup.add("Nome e Variações", "Gênero")
-    markup.add("Frequência Feminina", "Frequência Masculina")
-    markup.add("Frequência Total")
-    markup.add("Explique os conceitos")
+    markup.add("Lanches", "Combos")
+    markup.add("Acompanhamentos", "Bebidas")
+    markup.add("Cancelar pedido")
 
-    await message.reply("Qual informação você deseja de saber?", reply_markup=markup)
+    await message.reply("O que você deseja pedir?", reply_markup=markup)
 
 
 @dp.message_handler(
