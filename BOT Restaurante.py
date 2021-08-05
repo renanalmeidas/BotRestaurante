@@ -99,6 +99,8 @@ async def process_name(message: types.Message, state: FSMContext):
         else:
             await Form.next()       # próximo State
             await message.reply("Qual é o seu endereço?", reply_markup=markup)
+            await message.answer("Me responda o endereço completo em uma única mensagem.")
+
 
 
 # confere o nome
@@ -127,8 +129,8 @@ async def process_nome(message: types.Message, state: FSMContext):
 
 
 @dp.message_handler(
-    lambda message: message.text not in ["Nome e Variações", "Gênero", "Frequência Feminina", "Frequência Masculina",
-                                         "Frequência Total", "Explique os conceitos"], state=Form.opcao)
+    lambda message: message.text not in ["Lanches", "Combos", "Acompanhamentos", "Bebidas",
+                                         "Cancelar pedido", "Explique os conceitos"], state=Form.opcao)
 async def process_opcao_invalid(message: types.Message):
     await types.ChatActions.typing(0.5)     # ação de 'digitando'
 
